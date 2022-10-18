@@ -5,7 +5,13 @@ import os
 import logging
 import urllib3
 
+logger = logging.getLogger("__name__")
+logging.basicConfig(
+        format="%(asctime)s [%(levelname)8s] --- %(message)s",
+        level=logging.INFO,
+    )
 urllib3.disable_warnings()
+
 
 def main():
     parser = argparse.ArgumentParser(description='Required args for recursive clone')
@@ -50,12 +56,12 @@ def clone(group_id, branch, token, gitlab_url):
                     command = shlex.split(f"git clone --branch {branch} {ssh_url_to_repo} {path}")
                     result_code = subprocess.Popen(command)
                 else:
-                    logging.info(f"{path} already exists")
+                    logger.info(f"{path} already exists")
                     command = shlex.split(f"cd {path}; git pull  {path}; cd -")
                     result_code = subprocess.Popen(command)
 
             except Exception as e:
-                logging.error(f"Error on {ssh_url_to_repo}: {e}")
+                logger.error(f"Error on {ssh_url_to_repo}: {e}")
 
         total_pages = int(response.headers['X-Total-Pages'])
 
