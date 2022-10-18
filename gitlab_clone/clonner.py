@@ -57,7 +57,7 @@ def clone(group_id, branch, token, gitlab_url):
                     result_code = subprocess.Popen(command)
                 else:
                     logger.info(f"{path} already exists")
-                    command = shlex.split(f"cd {path}; git pull  {path}; cd -")
+                    command = shlex.split(f"git -C {path} pull")
                     result_code = subprocess.Popen(command)
 
             except Exception as e:
